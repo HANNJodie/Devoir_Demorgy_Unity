@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public enum IAstate
 {
@@ -18,6 +19,8 @@ public class IA_controller : MonoBehaviour
     public bool PlayerNear = false;
 
     [SerializeField] private Animator _animator;
+    [SerializeField] private NavMeshAgent _agent;
+    [SerializeField] private GameObject _waypoint;
 
     // Start is called before the first frame update
     void Start()
@@ -48,8 +51,8 @@ public class IA_controller : MonoBehaviour
                 break;
 
             case IAstate.Patrol:
-                //
-                //
+                //find next destination
+                _agent.SetDestination(_waypoint.transform.position);
                 break;
 
             case IAstate.PlayerSeen:
