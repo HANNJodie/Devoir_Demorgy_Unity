@@ -10,6 +10,7 @@ public class IAperception : MonoBehaviour
     [SerializeField] private GameObject _Pawn;
     private Vector3 _checkDirection;
     [SerializeField] private float _distance;
+    [SerializeField] private float _viewDistance;
 
 
 
@@ -22,7 +23,7 @@ public class IAperception : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        CheckDistance();
     }
 
     private void CheckDistance()
@@ -36,18 +37,40 @@ public class IAperception : MonoBehaviour
         {
             if (hit.collider.gameObject.GetComponent<PlayerController>())
             {
-                _Pawn.GetComponentInChildren<IA_controller>().PlayerNear = true;
+                _Pawn.GetComponent<IA_controller>().PlayerNear = true;
+                //print("PlayerNear");
+  
 
             }
             else
             {
-                _Pawn.GetComponentInChildren<IA_controller>().PlayerNear = false;
+                _Pawn.GetComponent<IA_controller>().PlayerNear = false;
             }
         }
         else
         {
-            _Pawn.GetComponentInChildren<IA_controller>().PlayerNear = false;
+            _Pawn.GetComponent<IA_controller>().PlayerNear = false;
         }
+
+        if (Physics.Raycast(_Pawn.transform.position, _checkDirection, out hit, _viewDistance))
+        {
+            if (hit.collider.gameObject.GetComponent<PlayerController>())
+            {
+                _Pawn.GetComponent<IA_controller>().PlayerSeen = true;
+                //print("PlayerSeen");
+
+
+            }
+            else
+            {
+                _Pawn.GetComponent<IA_controller>().PlayerSeen = false;
+            }
+        }
+        else
+        {
+            _Pawn.GetComponent<IA_controller>().PlayerSeen = false;
+        }
+
 
     }
 
